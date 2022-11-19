@@ -1,33 +1,55 @@
 import com.sun.source.tree.CatchTree;
 
+import java.time.LocalDate;
+
 public class Human {
-    public int yearOfBirth;
+    private int yearOfBirth;
     public String name;
-    public String town;
+    private String town;
     public String jobTitle;
+    private int age;
 
-    public Human(int yearOfBirth, String name, String town, String jobTitle) {
-        if (yearOfBirth > 1930) {
-            this.yearOfBirth = yearOfBirth;
-        } else throw new IllegalArgumentException("Некорректно введён год рождения");
+    public int getYearOfBirth() {
+        return yearOfBirth;
+    }
 
-        if (town == "" || town == null) {
-            throw new IllegalArgumentException("Некорректно введён город");
+    public void setYearOfBirth(int yearOfBirth) {
+        if (yearOfBirth <= 0) {
+            yearOfBirth = 0;
+        }
+        this.yearOfBirth = yearOfBirth;
+    }
+
+    public String getTown() {
+        return town;
+    }
+
+    public void setTown(String town) {
+        if (town == null || town.isEmpty() || town.isBlank()) {
+            town = "'Информация не указана'";
         }
         this.town = town;
-        if (jobTitle == "" || jobTitle == null) {
-            throw new IllegalArgumentException("Некорректно введена должность");
-        }
+    }
+
+    public Human(int yearOfBirth, String name, String town, String jobTitle) {
+        this.yearOfBirth = yearOfBirth;
+        this.town = town;
         this.jobTitle = jobTitle;
-        if (name == "" || name == null) {
-            throw new IllegalArgumentException("Некорректный ввод имени");
-        }
         this.name = name;
+    }
+
+    public Human( String name, String town, String jobTitle, int age) {
+        this.name = name;
+        this.town = town;
+        this.jobTitle = jobTitle;
+        if (age >= 0) {
+            this.yearOfBirth = LocalDate.now().getYear() - age;
+        } else this.yearOfBirth = LocalDate.now().getYear() - Math.abs(age);
     }
 
     @Override
     public String toString() {
-        return "Привет! меня зовут " + name + ". Я из города " + town + ". Я родился в " +
-                yearOfBirth + " году." + " Я работаю на должности " + jobTitle + ". Будем знакомы!";
+        return "Привет! меня зовут " + name + ". Я из города " + getTown() + ". Я родился в " +
+                getYearOfBirth() + " году." + " Я работаю на должности " + jobTitle + ". Будем знакомы!";
     }
 }
